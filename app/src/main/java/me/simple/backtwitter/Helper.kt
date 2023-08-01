@@ -19,6 +19,8 @@ object Helper {
 
     fun createIcon(
         name: String = "Twitter",
+        iconRes: Int = R.mipmap.ic_launcher_twitter,
+        shortcutId: String,
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
@@ -34,10 +36,10 @@ object Helper {
                 launchIntent.setAction(Intent.ACTION_VIEW)
                 launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                val builder = ShortcutInfo.Builder(App.context, "twitter_shortcut_id")
+                val builder = ShortcutInfo.Builder(App.context, shortcutId)
                     .setShortLabel(name)
                     .setLongLabel(name)
-                    .setIcon(Icon.createWithResource(App.context, R.mipmap.ic_launcher_twitter))
+                    .setIcon(Icon.createWithResource(App.context, iconRes))
                     .setIntent(launchIntent)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
