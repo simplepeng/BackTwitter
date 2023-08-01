@@ -8,7 +8,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 
-@RequiresApi(Build.VERSION_CODES.N_MR1)
+//https://blog.csdn.net/sziitjin/article/details/105724275
 object Helper {
 
     private val shortcutManager: ShortcutManager by lazy {
@@ -24,16 +24,28 @@ object Helper {
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (shortcutManager.isRequestPinShortcutSupported) {
-                val intent: Intent = Intent(App.context, MainActivity::class.java)
-                intent.setAction(Intent.ACTION_VIEW)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val twitterPackageName = "com.twitter.android"
+                val launchIntent = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
+                if (launchIntent == null) {
+                    onFail.invoke()
+                    return
+                }
 
-                val pinShortcutInfo = ShortcutInfo.Builder(App.context, "twitter_shortcut_id")
+                launchIntent.setAction(Intent.ACTION_VIEW)
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                val builder = ShortcutInfo.Builder(App.context, "twitter_shortcut_id")
                     .setShortLabel(name)
                     .setLongLabel(name)
-                    .setIcon(Icon.createWithResource(App.context, R.mipmap.ic_launcher))
-                    .setIntent(intent)
-                    .build()
+                    .setIcon(Icon.createWithResource(App.context, R.mipmap.ic_launcher_twitter))
+                    .setIntent(launchIntent)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    builder.setLongLived(true)
+                }
+
+                val pinShortcutInfo = builder.build()
+                shortcutManager.setDynamicShortcuts(mutableListOf(pinShortcutInfo))
 
                 val pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo)
                 val successCallback = PendingIntent.getBroadcast(
