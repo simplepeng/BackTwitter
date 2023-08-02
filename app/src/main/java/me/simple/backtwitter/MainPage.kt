@@ -101,7 +101,9 @@ fun MainPage() {
             Button(
                 modifier = Modifier.padding(top = 15.dp),
                 onClick = {
-                    Helper.createIcon(appName,
+                    Helper.createIcon(
+                        context = App.context,
+                        name = appName,
                         iconRes = if (isFirstChecked) R.mipmap.ic_launcher_twitter else R.mipmap.ic_launcher_twitter_round,
                         shortcutId = if (isFirstChecked) "twitter_shortcut_id" else "twitter_round_shortcut_id",
                         onSuccess = {
