@@ -34,8 +34,6 @@ object Helper {
         launchIntent.setAction(Intent.ACTION_VIEW)
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-//        val shortcutManager = App.context.getSystemService(ShortcutManager::class.java)
-
         val shortcutInfo = ShortcutInfoCompat.Builder(App.context, shortcutId)
             .setShortLabel(name)
             .setLongLabel(name)
@@ -44,7 +42,8 @@ object Helper {
             .setLongLived(true)
             .build()
 
-//        val succeeded = ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
+        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
+
         val resultIntent = ShortcutManagerCompat.createShortcutResultIntent(App.context, shortcutInfo)
         val successCallback = PendingIntent.getBroadcast(
             App.context,
@@ -54,39 +53,6 @@ object Helper {
         )
         val succeeded = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, successCallback.intentSender)
         if (succeeded) onSuccess.invoke() else onFail.invoke()
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            if (shortcutManager.isRequestPinShortcutSupported) {
-//
-//                val builder = ShortcutInfo.Builder(App.context, shortcutId)
-//                    .setShortLabel(name)
-//                    .setLongLabel(name)
-//                    .setIcon(Icon.createWithResource(App.context, iconRes))
-//                    .setIntent(launchIntent)
-//
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                    builder.setLongLived(true)
-//                }
-//
-//                val pinShortcutInfo = builder.build()
-////                shortcutManager.setDynamicShortcuts(mutableListOf(pinShortcutInfo))
-//
-//                val pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo)
-//                val successCallback = PendingIntent.getBroadcast(
-//                    App.context,
-//                    0,
-//                    pinnedShortcutCallbackIntent,
-//                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-//                )
-//
-//                val success = shortcutManager.requestPinShortcut(pinShortcutInfo, successCallback.intentSender)
-//                if (success) onSuccess.invoke() else onFail.invoke()
-//            } else {
-//                onFail.invoke()
-//            }
-//        } else {
-//            onFail.invoke()
-//        }
     }
 
 }

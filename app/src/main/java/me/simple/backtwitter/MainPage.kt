@@ -1,5 +1,6 @@
 package me.simple.backtwitter
 
+import android.widget.Toolbar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,14 +44,16 @@ fun MainPage() {
             mutableStateOf("")
         }
 
-        Text(
-            text = titleName,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 15.dp)
+        TopAppBar(
+            title = {
+                Text(
+                    text = titleName,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }, modifier = Modifier.align(Alignment.TopCenter)
         )
+
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally

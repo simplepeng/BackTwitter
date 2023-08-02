@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">回来吧Twitter</string>
+    <string name="app_name">回到Twitter</string>
     <string name="add_text">添加到屏幕</string>
     <string name="set_fail">设置失败，似乎系统版本过低</string>
 </resources>
