@@ -111,9 +111,13 @@ fun MainPage() {
                         name = appName,
                         iconRes = if (isFirstChecked) R.mipmap.ic_launcher_twitter else R.mipmap.ic_launcher_twitter_round,
                         shortcutId = if (isFirstChecked) "twitter_shortcut_id" else "twitter_round_shortcut_id",
+                        unSupport = {
+                            showToast("似乎没开权限，还是不支持？")
+                        },
                         onSuccess = {
 //                        showSnackBar = true
-                        }, onFail = {
+                        },
+                        onFail = {
                             showSnackBar = true
                             snackBarText = failText
                         })

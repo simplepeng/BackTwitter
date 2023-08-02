@@ -24,9 +24,15 @@ object Helper {
         name: String = "Twitter",
         iconRes: Int = R.mipmap.ic_launcher_twitter,
         shortcutId: String,
+        unSupport: () -> Unit,
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
+        if (!ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+            unSupport.invoke()
+            return
+        }
+
         val launchIntent = getLaunchTwitterIntent()
         if (launchIntent == null) {
             onFail.invoke()
@@ -36,10 +42,11 @@ object Helper {
 
         launchIntent.setAction(Intent.ACTION_VIEW)
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val shortcutInfo = ShortcutInfoCompat.Builder(App.context, shortcutId)
             .setShortLabel(name)
-            .setLongLabel(name)
+//            .setLongLabel(name)
             .setIcon(IconCompat.createWithResource(App.context, iconRes))
             .setIntent(launchIntent)
             .setLongLived(true)
