@@ -17,6 +17,8 @@ object Helper {
 
     private const val twitterPackageName = "com.twitter.android"
 
+    fun getLaunchTwitterIntent() = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
+
     fun createIcon(
         context: Context = App.context,
         name: String = "Twitter",
@@ -25,11 +27,12 @@ object Helper {
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
-        val launchIntent = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
+        val launchIntent = getLaunchTwitterIntent()
         if (launchIntent == null) {
             onFail.invoke()
             return
         }
+//        val launchIntent = Intent(context, MainActivity::class.java)
 
         launchIntent.setAction(Intent.ACTION_VIEW)
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -42,7 +45,7 @@ object Helper {
             .setLongLived(true)
             .build()
 
-        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
+//        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
 
         val resultIntent = ShortcutManagerCompat.createShortcutResultIntent(App.context, shortcutInfo)
         val successCallback = PendingIntent.getBroadcast(
