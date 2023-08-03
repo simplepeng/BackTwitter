@@ -1,13 +1,9 @@
 package me.simple.backtwitter
 
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
-import android.graphics.drawable.Icon
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -16,8 +12,29 @@ import androidx.core.graphics.drawable.IconCompat
 object Helper {
 
     private const val twitterPackageName = "com.twitter.android"
+    private const val START_ACTIVITY = "com.twitter.android.StartActivity"
+    private const val MAIN_ACTIVITY = "com.twitter.app.main.MainActivity"
 
-    fun getLaunchTwitterIntent() = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
+    fun getTwitterIntent(): Intent {
+        val intent = getLaunchTwitterIntent()
+        if (intent != null) return intent
+        return getStaticTwitterIntent()
+    }
+
+    private fun getLaunchTwitterIntent() = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
+
+//    fun getLaunchTwitterIntent() = Intent().apply {
+//        component = ComponentName(twitterPackageName, MAIN_ACTIVITY)
+//        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//    }
+
+    private fun getStaticTwitterIntent() = Intent().apply {
+        addCategory("android.intent.category.LAUNCHER")
+        action = "android.intent.action.MAIN"
+        component = ComponentName("com.twitter.android", "com.twitter.android.StartActivity")
+    }
+
+    private fun getProxyIntent() = Intent(App.context, ProxyActivity::class.java)
 
     fun createIcon(
         context: Context = App.context,
@@ -33,16 +50,16 @@ object Helper {
             return
         }
 
-        val launchIntent = getLaunchTwitterIntent()
-        if (launchIntent == null) {
-            onFail.invoke()
-            return
-        }
-//        val launchIntent = Intent(context, MainActivity::class.java)
+//        var launchIntent = getLaunchTwitterIntent()
+//        if (launchIntent == null) {
+//            launchIntent = getStaticTwitterIntent()
+//        }
+        val launchIntent = getProxyIntent()
 
         launchIntent.setAction(Intent.ACTION_VIEW)
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        launchIntent.addCategory(Intent.CATEGORY_LAUNCHER)
 
         val shortcutInfo = ShortcutInfoCompat.Builder(App.context, shortcutId)
             .setShortLabel(name)
