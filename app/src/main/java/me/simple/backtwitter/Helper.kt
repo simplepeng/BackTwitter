@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -23,10 +24,6 @@ object Helper {
 
     private fun getLaunchTwitterIntent() = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
 
-//    fun getLaunchTwitterIntent() = Intent().apply {
-//        component = ComponentName(twitterPackageName, MAIN_ACTIVITY)
-//        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//    }
 
     private fun getStaticTwitterIntent() = Intent().apply {
         addCategory("android.intent.category.LAUNCHER")
@@ -50,10 +47,6 @@ object Helper {
             return
         }
 
-//        var launchIntent = getLaunchTwitterIntent()
-//        if (launchIntent == null) {
-//            launchIntent = getStaticTwitterIntent()
-//        }
         val launchIntent = getProxyIntent()
 
         launchIntent.setAction(Intent.ACTION_VIEW)
@@ -82,4 +75,13 @@ object Helper {
         if (succeeded) onSuccess.invoke() else onFail.invoke()
     }
 
+    private val twitterAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity1")
+
+    fun enableIcon() {
+        App.context.packageManager.setComponentEnabledSetting(
+            twitterAliasComponent,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+    }
 }
