@@ -74,14 +74,14 @@ object Helper {
         if (succeeded) onSuccess.invoke() else onFail.invoke()
     }
 
-    private val twitterAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity1")
-    private val twitterRoundAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity2")
-
-    fun enableIcon() {
-        App.context.packageManager.setComponentEnabledSetting(
-            twitterAliasComponent,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP
-        )
-    }
+//    private val twitterAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity1")
+//    private val twitterRoundAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity2")
+//
+//    fun enableIcon() {
+//        App.context.packageManager.setComponentEnabledSetting(
+//            twitterAliasComponent,
+//            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//            PackageManager.DONT_KILL_APP
+//        )
+//    }
 }
