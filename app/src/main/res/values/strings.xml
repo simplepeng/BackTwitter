@@ -2,11 +2,11 @@
     <string name="app_name">BackTwitter</string>
     <string name="add_text">Add To Screen</string>
     <string name="set_fail">Set Fail</string>
-    <string name="no_permission_dialog_title">无法添加到桌面</string>
-    <string name="no_permission_dialog_text">请前往系统设置，然后打开”创建桌面快捷方式“权限。</string>
-    <string name="cancel">取消</string>
-    <string name="go_setting">前往设置</string>
-    <string name="complete_title">已尝试添加到桌面</string>
-    <string name="sure">确定</string>
-    <string name="complete_text">若添加失败，请前往系统设置，然后打开\"创建桌面快捷方式\"的权限。</string>
+    <string name="no_permission_dialog_title">Unable to add to desktop</string>
+    <string name="no_permission_dialog_text">Please go to system settings and turn on the \'create desktop shortcut\' permission.</string>
+    <string name="cancel">cancel</string>
+    <string name="go_setting">Go to settings</string>
+    <string name="complete_title">Tried to add to desktop.</string>
+    <string name="sure">Confirm</string>
+    <string name="complete_text">If the addition fails, please go to system settings and turn on the \'create desktop shortcut\' permission.</string>
 </resources>
