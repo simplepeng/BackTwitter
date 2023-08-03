@@ -24,7 +24,6 @@ object Helper {
 
     private fun getLaunchTwitterIntent() = App.context.packageManager.getLaunchIntentForPackage(twitterPackageName)
 
-
     private fun getStaticTwitterIntent() = Intent().apply {
         addCategory("android.intent.category.LAUNCHER")
         action = "android.intent.action.MAIN"

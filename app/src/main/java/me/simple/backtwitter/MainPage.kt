@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage() {
+fun MainPage(
+    onSetSuccess: () -> Unit
+) {
     val titleName = LocalContext.current.getString(R.string.app_name)
     val failText = LocalContext.current.getString(R.string.set_fail)
 
@@ -105,24 +107,21 @@ fun MainPage() {
             Button(
                 modifier = Modifier.padding(top = 15.dp),
                 onClick = {
-//                    Helper.enableIcon()
+                    Helper.createIcon(
+                        context = App.context,
+                        name = appName,
+                        iconRes = if (isFirstChecked) R.mipmap.ic_launcher_twitter else R.mipmap.ic_launcher_twitter_round,
+                        shortcutId = if (isFirstChecked) "twitter_shortcut_id" else "twitter_round_shortcut_id",
+                        unSupport = {
+                            showToast("似乎没开权限，还是不支持？")
+                        },
+                        onSuccess = {
 
-//                    App.context.startActivity(Helper.getLaunchTwitterIntent())
-//                    Helper.createIcon(
-//                        context = App.context,
-//                        name = appName,
-//                        iconRes = if (isFirstChecked) R.mipmap.ic_launcher_twitter else R.mipmap.ic_launcher_twitter_round,
-//                        shortcutId = if (isFirstChecked) "twitter_shortcut_id" else "twitter_round_shortcut_id",
-//                        unSupport = {
-//                            showToast("似乎没开权限，还是不支持？")
-//                        },
-//                        onSuccess = {
-////                        showSnackBar = true
-//                        },
-//                        onFail = {
-//                            showSnackBar = true
-//                            snackBarText = failText
-//                        })
+                        },
+                        onFail = {
+                            showSnackBar = true
+                            snackBarText = failText
+                        })
                 }) {
                 Text(text = LocalContext.current.getString(R.string.add_text))
             }

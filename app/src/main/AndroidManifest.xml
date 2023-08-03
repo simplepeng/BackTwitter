@@ -41,19 +41,19 @@
 
         <activity android:name="me.simple.backtwitter.ProxyActivity" />
 
-        <activity-alias
-            android:name="ProxyActivity1"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_twitter"
-            android:label="Twitter1"
-            android:targetActivity="me.simple.backtwitter.ProxyActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--        <activity-alias-->
+<!--            android:name="ProxyActivity1"-->
+<!--            android:enabled="false"-->
+<!--            android:exported="true"-->
+<!--            android:icon="@mipmap/ic_launcher_twitter"-->
+<!--            android:label="Twitter1"-->
+<!--            android:targetActivity="me.simple.backtwitter.ProxyActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity-alias>-->
 
 <!--        <activity-alias-->
 <!--            android:name="ProxyActivity2"-->
