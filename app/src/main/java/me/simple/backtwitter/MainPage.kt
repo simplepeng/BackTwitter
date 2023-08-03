@@ -2,11 +2,13 @@ package me.simple.backtwitter
 
 import android.widget.Toolbar
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +36,9 @@ fun MainPage(
 ) {
     val titleName = LocalContext.current.getString(R.string.app_name)
     val failText = LocalContext.current.getString(R.string.set_fail)
+    var showUnSupportDialog by remember {
+        mutableStateOf(false)
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -49,16 +54,13 @@ fun MainPage(
         TopAppBar(
             title = {
                 Text(
-                    text = titleName,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium
+                    text = titleName, fontSize = 20.sp, fontWeight = FontWeight.Medium
                 )
             }, modifier = Modifier.align(Alignment.TopCenter)
         )
 
         Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             var appName by remember {
                 mutableStateOf("Twitter")
@@ -68,61 +70,45 @@ fun MainPage(
             Row {
                 Box {
                     Image(
-                        painter = painterResource(id = R.mipmap.ic_launcher_twitter),
-                        contentDescription = null,
-                        modifier = Modifier.padding(18.dp)
+                        painter = painterResource(id = R.mipmap.ic_launcher_twitter), contentDescription = null, modifier = Modifier.padding(18.dp)
                     )
                     Checkbox(
-                        checked = isFirstChecked,
-                        onCheckedChange = {
+                        checked = isFirstChecked, onCheckedChange = {
                             isFirstChecked = true
-                        },
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
+                        }, modifier = Modifier.align(Alignment.BottomEnd)
                     )
                 }
                 Box {
                     Image(
-                        painter = painterResource(id = R.mipmap.ic_launcher_twitter_round),
-                        contentDescription = null,
-                        modifier = Modifier.padding(18.dp)
+                        painter = painterResource(id = R.mipmap.ic_launcher_twitter_round), contentDescription = null, modifier = Modifier.padding(18.dp)
                     )
                     Checkbox(
-                        checked = !isFirstChecked,
-                        onCheckedChange = {
+                        checked = !isFirstChecked, onCheckedChange = {
                             isFirstChecked = false
-                        },
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
+                        }, modifier = Modifier.align(Alignment.BottomEnd)
                     )
                 }
             }
-            OutlinedTextField(
-                modifier = Modifier.padding(top = 20.dp),
-                value = appName,
-                onValueChange = {
-                    appName = it
-                })
+            OutlinedTextField(modifier = Modifier.padding(top = 20.dp), value = appName, onValueChange = {
+                appName = it
+            })
 
-            Button(
-                modifier = Modifier.padding(top = 15.dp),
-                onClick = {
-                    Helper.createIcon(
-                        context = App.context,
-                        name = appName,
-                        iconRes = if (isFirstChecked) R.mipmap.ic_launcher_twitter else R.mipmap.ic_launcher_twitter_round,
-                        shortcutId = if (isFirstChecked) "twitter_shortcut_id" else "twitter_round_shortcut_id",
-                        unSupport = {
-                            showToast("似乎没开权限，还是不支持？")
-                        },
-                        onSuccess = {
+            Button(modifier = Modifier.padding(top = 15.dp), onClick = {
+                Helper.createIcon(context = App.context,
+                    name = appName,
+                    iconRes = if (isFirstChecked) R.mipmap.ic_launcher_twitter else R.mipmap.ic_launcher_twitter_round,
+                    shortcutId = if (isFirstChecked) "twitter_shortcut_id" else "twitter_round_shortcut_id",
+                    unSupport = {
+                        showUnSupportDialog = true
+                    },
+                    onSuccess = {
 
-                        },
-                        onFail = {
-                            showSnackBar = true
-                            snackBarText = failText
-                        })
-                }) {
+                    },
+                    onFail = {
+                        showSnackBar = true
+                        snackBarText = failText
+                    })
+            }) {
                 Text(text = LocalContext.current.getString(R.string.add_text))
             }
         }
@@ -130,15 +116,42 @@ fun MainPage(
         if (showSnackBar) {
             ShowSnackBar(snackBarText, modifier = Modifier.align(Alignment.BottomCenter))
         }
+        if (showUnSupportDialog) {
+            NoPermissionDialog(onDismissRequest = {
+                showUnSupportDialog = false
+            })
+        }
     }
 }
 
 @Composable
 fun ShowSnackBar(
-    text: String,
-    modifier: Modifier
+    text: String, modifier: Modifier
 ) {
     Snackbar(modifier = modifier) {
         Text(text = text)
     }
+}
+
+@Composable
+fun NoPermissionDialog(onDismissRequest: () -> Unit) {
+    AlertDialog(onDismissRequest = {
+        onDismissRequest.invoke()
+    }, confirmButton = {
+        Text(
+            text = LocalContext.current.getString(R.string.go_setting),
+            modifier = Modifier.clickable {
+                onDismissRequest.invoke()
+            })
+    }, dismissButton = {
+        Text(
+            text = LocalContext.current.getString(R.string.cancel),
+            modifier = Modifier.clickable {
+                onDismissRequest.invoke()
+            })
+    }, title = {
+        Text(text = LocalContext.current.getString(R.string.no_permission_dialog_title))
+    }, text = {
+        Text(text = LocalContext.current.getString(R.string.no_permission_dialog_text))
+    })
 }

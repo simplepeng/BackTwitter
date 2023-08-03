@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -42,16 +43,16 @@ object Helper {
         name: String = "Twitter",
         iconRes: Int = R.mipmap.ic_launcher_twitter,
         shortcutId: String,
-        unSupport: () -> Unit,
+        unSupport: (() -> Unit)? = null,
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
         if (!hasShortcutPermissionOnMIUI(context)) {
-            unSupport.invoke()
+            unSupport?.invoke()
             return
         }
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-            unSupport.invoke()
+            unSupport?.invoke()
             return
         }
 
