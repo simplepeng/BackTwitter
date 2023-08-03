@@ -105,7 +105,8 @@ fun MainPage() {
             Button(
                 modifier = Modifier.padding(top = 15.dp),
                 onClick = {
-                    Helper.enableIcon()
+//                    Helper.enableIcon()
+
 //                    App.context.startActivity(Helper.getLaunchTwitterIntent())
 //                    Helper.createIcon(
 //                        context = App.context,

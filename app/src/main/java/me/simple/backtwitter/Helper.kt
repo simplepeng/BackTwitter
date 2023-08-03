@@ -76,6 +76,7 @@ object Helper {
     }
 
     private val twitterAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity1")
+    private val twitterRoundAliasComponent = ComponentName(App.context, App.context.packageName + ".ProxyActivity2")
 
     fun enableIcon() {
         App.context.packageManager.setComponentEnabledSetting(
