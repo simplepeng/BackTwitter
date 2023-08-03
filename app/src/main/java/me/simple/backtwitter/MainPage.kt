@@ -141,6 +141,7 @@ fun NoPermissionDialog(onDismissRequest: () -> Unit) {
         Text(
             text = LocalContext.current.getString(R.string.go_setting),
             modifier = Modifier.clickable {
+                Helper.openSettingPage(App.context)
                 onDismissRequest.invoke()
             })
     }, dismissButton = {

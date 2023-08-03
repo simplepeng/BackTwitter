@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -124,4 +125,13 @@ object Helper {
     private fun isMIUI() = Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) || Build.DISPLAY.contains("MIUI")
 
     private fun hasShortcutPermissionOnMIUI(context: Context) = isMIUI() && checkShortcutPermissionOnMIUI(context) != 1
+
+    fun openSettingPage(context: Context) {
+        val intent = Intent().apply {
+            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.parse("package:" + context.packageName)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
 }
