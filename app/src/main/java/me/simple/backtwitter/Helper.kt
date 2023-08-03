@@ -15,7 +15,6 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 
-
 //https://blog.csdn.net/sziitjin/article/details/105724275
 object Helper {
 
@@ -66,19 +65,12 @@ object Helper {
 
         val shortcutInfo = ShortcutInfoCompat.Builder(App.context, shortcutId)
             .setShortLabel(name)
-//            .setLongLabel(name)
             .setIcon(IconCompat.createWithResource(App.context, iconRes))
             .setIntent(launchIntent)
             .setLongLived(true)
             .build()
 
-//        val updated = ShortcutManagerCompat.updateShortcuts(context, mutableListOf(shortcutInfo))
-//        if (!updated) {
-//            unSupport.invoke()
-//            return
-//        }
-
-        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
+//        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
 
         val resultIntent = ShortcutManagerCompat.createShortcutResultIntent(App.context, shortcutInfo)
         val successCallback = PendingIntent.getBroadcast(

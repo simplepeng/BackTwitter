@@ -3,4 +3,11 @@
     <string name="app_name">回到Twitter</string>
     <string name="add_text">添加到屏幕</string>
     <string name="set_fail">设置失败，似乎系统版本过低</string>
+    <string name="no_permission_dialog_title">无法添加到桌面</string>
+    <string name="no_permission_dialog_text">请前往系统设置，打开\"创建桌面快捷方式\"权限。</string>
+    <string name="cancel">取消</string>
+    <string name="go_setting">前往设置</string>
+    <string name="complete_title">已尝试添加到桌面</string>
+    <string name="sure">确定</string>
+    <string name="complete_text">若添加失败，请前往系统设置，打开\"创建桌面快捷方式\"的权限。</string>
 </resources>

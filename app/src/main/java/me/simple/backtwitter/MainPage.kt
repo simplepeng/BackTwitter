@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -39,11 +40,13 @@ fun MainPage(
     var showUnSupportDialog by remember {
         mutableStateOf(false)
     }
+    var showCompleteDialog by remember {
+        mutableStateOf(false)
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-
         var showSnackBar by remember {
             mutableStateOf(false)
         }
@@ -102,7 +105,7 @@ fun MainPage(
                         showUnSupportDialog = true
                     },
                     onSuccess = {
-
+                        showCompleteDialog = true
                     },
                     onFail = {
                         showSnackBar = true
@@ -119,6 +122,11 @@ fun MainPage(
         if (showUnSupportDialog) {
             NoPermissionDialog(onDismissRequest = {
                 showUnSupportDialog = false
+            })
+        }
+        if (showCompleteDialog) {
+            SetCompleteDialog(onDismissRequest = {
+                showCompleteDialog = false
             })
         }
     }
@@ -154,5 +162,24 @@ fun NoPermissionDialog(onDismissRequest: () -> Unit) {
         Text(text = LocalContext.current.getString(R.string.no_permission_dialog_title))
     }, text = {
         Text(text = LocalContext.current.getString(R.string.no_permission_dialog_text))
+    })
+}
+
+@Composable
+fun SetCompleteDialog(
+    onDismissRequest: () -> Unit
+) {
+    AlertDialog(onDismissRequest = {
+        onDismissRequest.invoke()
+    }, confirmButton = {
+        Text(
+            text = LocalContext.current.getString(R.string.sure),
+            modifier = Modifier.clickable {
+                onDismissRequest.invoke()
+            })
+    }, title = {
+        Text(text = LocalContext.current.getString(R.string.complete_title))
+    }, text = {
+        Text(text = LocalContext.current.getString(R.string.complete_text))
     })
 }

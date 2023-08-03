@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.core.view.postDelayed
 
 class ProxyActivity : ComponentActivity() {
 
@@ -18,5 +19,6 @@ class ProxyActivity : ComponentActivity() {
         val intent = Helper.getTwitterIntent()
         startActivity(intent)
         finish()
+
     }
 }

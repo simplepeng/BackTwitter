@@ -6,4 +6,7 @@
     <string name="no_permission_dialog_text">请前往系统设置，然后打开”创建桌面快捷方式“权限。</string>
     <string name="cancel">取消</string>
     <string name="go_setting">前往设置</string>
+    <string name="complete_title">已尝试添加到桌面</string>
+    <string name="sure">确定</string>
+    <string name="complete_text">若添加失败，请前往系统设置，然后打开\"创建桌面快捷方式\"的权限。</string>
 </resources>
