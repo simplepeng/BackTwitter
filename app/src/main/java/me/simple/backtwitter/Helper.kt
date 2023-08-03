@@ -1,13 +1,18 @@
 package me.simple.backtwitter
 
+import android.app.AppOpsManager
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+
 
 //https://blog.csdn.net/sziitjin/article/details/105724275
 object Helper {
@@ -41,6 +46,10 @@ object Helper {
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
+        if (!hasShortcutPermissionOnMIUI(context)) {
+            unSupport.invoke()
+            return
+        }
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
             unSupport.invoke()
             return
@@ -61,7 +70,13 @@ object Helper {
             .setLongLived(true)
             .build()
 
-//        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
+//        val updated = ShortcutManagerCompat.updateShortcuts(context, mutableListOf(shortcutInfo))
+//        if (!updated) {
+//            unSupport.invoke()
+//            return
+//        }
+
+        ShortcutManagerCompat.pushDynamicShortcut(App.context, shortcutInfo)
 
         val resultIntent = ShortcutManagerCompat.createShortcutResultIntent(App.context, shortcutInfo)
         val successCallback = PendingIntent.getBroadcast(
@@ -84,4 +99,28 @@ object Helper {
 //            PackageManager.DONT_KILL_APP
 //        )
 //    }
+
+    //0 有权限，1 没权限，5 询问
+    private fun checkShortcutPermissionOnMIUI(context: Context): Int {
+        return try {
+            val mAppOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val pkg = context.applicationContext.packageName
+            val uid = context.applicationInfo.uid
+            val appOpsClass = Class.forName(AppOpsManager::class.java.name)
+            val checkOpNoThrowMethod = appOpsClass.getDeclaredMethod("checkOpNoThrow", Integer.TYPE, Integer.TYPE, String::class.java)
+            val invoke = checkOpNoThrowMethod.invoke(mAppOps, 10017, uid, pkg)
+            if (invoke == null) {
+                Log.e("ShortcutPermission", "MIUI check permission checkOpNoThrowMethod(AppOpsManager) invoke result is null")
+                return -1
+            }
+            invoke as Int
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -1
+        }
+    }
+
+    private fun isMIUI() = Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) || Build.DISPLAY.contains("MIUI")
+
+    private fun hasShortcutPermissionOnMIUI(context: Context) = isMIUI() && checkShortcutPermissionOnMIUI(context) != 1
 }
