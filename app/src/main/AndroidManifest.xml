@@ -41,7 +41,8 @@
 
         <activity
             android:name="me.simple.backtwitter.ProxyActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <!--        <activity-alias-->
         <!--            android:name="ProxyActivity1"-->
